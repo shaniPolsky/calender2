@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <meta charset='utf-8' />
+   
+
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+       
+
+      document.addEventListener('DOMContentLoaded', function() {
+        var calendarEl = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: 'dayGridMonth'
+        });
+        calendar.render();
+      });
+    
+    document.addEventListener("DOMContentLoaded", function () {
+      axios.get("localhost:7116/api/Event").then((res) => {
+        var calendarEl = document.getElementById("calendar");
+        var calendar = new FullCalendar.Calendar(calendarEl, {
+          initialView: "dayGridMonth",
+          events: res.data,
+        });
+        calendar.render();
+      });
+    
+    //   document.addEventListener("DOMContentLoaded", function () {
+    //   axios.post("https://eventsapi.onrender.com/api/Events").then((res) => {
+    //     var calendarEl = document.getElementById("calendar");
+    //     var calendar = new FullCalendar.Calendar(calendarEl, {
+    //       initialView: "dayGridMonth",
+    //       events: res.data,
+    //     });
+    //     calendar.render();
+    //   });
+   });
+
+   function add(){           //post
+    alert("add event")
+    const title=prompt("enter title")
+    const start=prompt("enter date")
+    axios.post('localhost:7116/api/Event',
+    {
+   
+   "title": title,
+   "start": start
+   }
+    )};
+
+
+   function delete1(){
+    alert("delete event")
+    const id=prompt("enter your id:")
+    axios.delete("localhost:7116/api/Event/$`{id}`")
+    };
+    
+   
+   function update(){
+    alert("update event")
+    const id=prompt("enter your id:")
+    const title=prompt("enter title")
+    const start=prompt("enter date")
+    axios.put(`localhost:7116/api/Event/${id}`,
+    {
+   
+    "title": title,
+    "start": start
+
+    }
+  )
+}
+
+
+ </script>
+  </head>
+  <body>
+    <button onclick= "(add())" style="font-size: 30px; background-color: aqua; "> add event</button>
+    <button onclick="(update())" style="font-size: 30px; background-color: aqua; "> update event</button>
+    <button onclick="(delete1())" style="font-size: 30px; background-color: aqua; "> delete event</button>
+    <div id='calendar'></div>
+  </body>
+</html>
